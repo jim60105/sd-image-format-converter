@@ -1,12 +1,14 @@
-# Image Format Converter (for Stable Diffusion conventional usage)
+# Image Format Converter (for Stable Diffusion generation data)
 
-This PowerShell script converts image files from one format to another while preserving generation data for Stable Diffusion conventional usage. It's designed to be a handy tool for developers and users who need to convert image formats while retaining Stable Diffusion generation data.
+This PowerShell script is designed to efficiently convert image files from one format to another, ensuring that the generation data for Stable Diffusion conventional usage is preserved. It serves as a convenient tool for users who require image format conversions while maintaining the integrity of Stable Diffusion generation data.
+
+Works with [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui) and [Civitai](https://civitai.com/).
 
 ## Features
 
 - Converts image files from one format to another (e.g., JPG to PNG).
 - Supports various image formats including JPG, PNG, and WEBP.
-- Preserves generation data during the conversion process.
+- Ensures the preservation of generation data throughout the entire conversion process.
 
 ## Prerequisites
 
@@ -17,8 +19,8 @@ This PowerShell script converts image files from one format to another while pre
 ## Installation
 
 1. Clone the repository or download the script.
-2. Ensure ImageMagick and ExifTool are installed on your system.
-3. Run the script from the command line.
+2. Verify that ImageMagick and ExifTool are properly installed on your system.
+3. Execute the script by running it from the command line.
 
 ## Usage
 
@@ -33,6 +35,12 @@ For example, to convert all `.jpg` files in the current directory to `.png` form
 ```
 
 Check the [Microsoft documents](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-childitem?view=powershell-7.4#-filter) for more information about the Filter.
+
+If you want to convert exactly one file, you can specify the file name directly:
+
+```powershell
+.\format-converter.ps1 example.jpg .png
+```
 
 ## License
 
