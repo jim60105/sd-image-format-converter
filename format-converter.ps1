@@ -1,9 +1,9 @@
 <#
 .SYNOPSIS
-This PowerShell script converts image files from one format to another while preserving generation data for Stable Diffusion conventional usage.
+This PowerShell script is designed to efficiently convert image files from one format to another, ensuring that the generation data for Stable Diffusion conventional usage is preserved.
 
 .DESCRIPTION
-The script takes two arguments: the source image file filter and the target image file type. It converts all image files in the current directory that match the filter to the target file type, retaining the generation data of the original images.
+This PowerShell script is designed to efficiently convert image files from one format to another, ensuring that the generation data for Stable Diffusion conventional usage is preserved. It serves as a convenient tool for users who require image format conversions while maintaining the integrity of Stable Diffusion generation data.
 
 .PARAMETER Filter
 The filter of the source image files to be converted. For example, "*.jpg". Check the Microsoft documents for more information. https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-childitem?view=powershell-7.4#-filter. 
@@ -21,12 +21,12 @@ This script is licensed under the GNU General Public License version 3 (GPLv3).
 For the full license text, see the LICENSE or COPYING file in the root of this project.
 #>
 
-# Check if the -h parameter is passed
-if ($args -contains "-h") {
+# Check if the -h parameter is passed or not exactly two arguments are passed
+if ($args.Count -ne 2 -or $args -contains "-h") {
     Write-Host "Usage:"
     Write-Host "format-converter.ps1 <SourceImageFileType> <TargetImageFileType>"
     Write-Host "Example: format-converter.ps1 .jpg .png"
-    Write-Host "This will convert all .jpg files in the current directory to .png format, preserving EXIF information."
+    Write-Host "This will convert all .jpg files in the current directory to .png format, preserving Stable Diffusion generation data."
     exit
 }
 
@@ -51,8 +51,11 @@ Foreach-Object {
         $info = exiftool -s3 -Parameters $source
     }
 
+    # Print $info to the console
+    Write-Host "EXIF information for $($_): $info"
+
     # Generate the filename for the target image
-    $output = "$([System.IO.Path]::GetFileNameWithoutExtension($_)).$destinationExtension"
+    $output = "$([System.IO.Path]::GetFileNameWithoutExtension($_))$destinationExtension"
 
     # Use ImageMagick's magick command to convert the image to the target format
     magick "$($_.FullName)" $output
