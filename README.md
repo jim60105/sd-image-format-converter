@@ -2,7 +2,7 @@
 
 This PowerShell script is designed to efficiently convert image files from one format to another, ensuring that the generation data for Stable Diffusion conventional usage is preserved. It serves as a convenient tool for users who require image format conversions while maintaining the integrity of Stable Diffusion generation data.
 
-Works with [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui) and [Civitai](https://civitai.com/).
+The converted images are compatible with [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui) and [Civitai](https://civitai.com/).
 
 ## Features
 
@@ -12,15 +12,21 @@ Works with [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC11
 
 ## Prerequisites
 
-- PowerShell 7 or later.
+- PowerShell 7.
 - [ImageMagick](https://imagemagick.org/index.php) installed on your system.
-- [ExifTool](https://exiftool.org/) installed on your system.
+- [ExifTool](https://exiftool.org/) _**v12.81 or later**_ installed on your system.
+
+> [!IMPORTANT]  
+> Your ExifTool version must be **v12.81 or later** to ensure the preservation of generation data during the conversion process. If you are using an older version of ExifTool, please update to the latest version before running the script.
 
 ## Installation
 
 1. Clone the repository or download the script.
 2. Verify that ImageMagick and ExifTool are properly installed on your system.
 3. Execute the script by running it from the command line.
+
+> [!CAUTION]
+> Ensure that you have the necessary permissions to execute the script on your system. If you encounter any issues, please check this [Microsoft documentation](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies) first.
 
 ## Usage
 
