@@ -18,14 +18,14 @@ This command converts all .jpg files in the current directory to .png format, pr
 .NOTES
 The script uses exiftool to extract generation data from the source images and ImageMagick's magick command to perform the conversion.
 This script is licensed under the GNU General Public License version 3 (GPLv3).
-For the full license text, see the LICENSE or COPYING file in the root of this project.
+For the full license text, see the LICENSE file in the root of this project.
 #>
 
 # Check if the -h parameter is passed or not exactly two arguments are passed
 if ($args.Count -ne 2 -or $args -contains "-h") {
     Write-Host "Usage:"
-    Write-Host "format-converter.ps1 <SourceImageFileType> <TargetImageFileType>"
-    Write-Host "Example: format-converter.ps1 .jpg .png"
+    Write-Host "format-converter.ps1 <Filter> <TargetImageFileType>"
+    Write-Host "Example: format-converter.ps1 *.jpg .png"
     Write-Host "This will convert all .jpg files in the current directory to .png format, preserving Stable Diffusion generation data."
     exit
 }
