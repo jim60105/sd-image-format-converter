@@ -26,10 +26,9 @@ https://github.com/jim60105/sd-image-format-converter
 
 # Check if the -h parameter is passed or not exactly two arguments are passed
 if ($args.Count -ne 2 -or $args -contains "-h") {
-    Write-Host "Usage:"
-    Write-Host "format-converter.ps1 <Filter> <TargetImageFileType>"
-    Write-Host "Example: format-converter.ps1 *.jpg .png"
-    Write-Host "This will convert all .jpg files in the current directory to .png format, preserving Stable Diffusion generation data."
+    Write-Output "Usage: format-converter.ps1 <Filter> <TargetImageFileType>"
+    Write-Output "Example: format-converter.ps1 *.jpg .png"
+    Write-Output "This will convert all .jpg files in the current directory to .png format, preserving Stable Diffusion generation data."
     exit
 }
 
@@ -44,14 +43,14 @@ if ($destinationExtension[0] -ne ".") {
 
 Get-ChildItem "./" -Filter $filter | 
 Foreach-Object {
-    Write-Host "Converting $($_) to $($destinationExtension) format..."
+    Write-Output "Converting $($_) to $($destinationExtension) format..."
     $filename = $_.Name
     $output = "$([System.IO.Path]::GetFileNameWithoutExtension($_))$destinationExtension"
 
     # Use ImageMagick's magick command to convert the image to the target format
     magick "$($_.FullName)" $output
 
-    Write-Host "Conversion complete. $($filename) has been converted to $($output)."
+    Write-Output "Conversion complete. $($filename) has been converted to $($output)."
 
     .\copy-info.ps1 $_ $output
 }

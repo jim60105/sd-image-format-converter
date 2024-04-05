@@ -23,6 +23,14 @@ This script requires ExifTool to be installed on the system. It is used to read 
 https://github.com/jim60105/sd-image-format-converter
 #>
 
+# Check if the -h parameter is passed or not exactly two arguments are passed
+if ($args.Count -ne 2 -or $args -contains "-h") {
+    Write-Output "Usage: copy-info.ps1 <SOURCE> <DESTINATION>"
+    Write-Output "Example: copy-info.ps1 source.webp target.png"
+    Write-Output "This will copy Stable Diffusion generation data from a source image file to a target image file."
+    exit
+}
+
 # Get two file path from command line argument
 $source = $args[0]
 $destination = $args[1]
@@ -32,7 +40,8 @@ $filename = $source.Name
 $sourceExtension = [System.IO.Path]::GetExtension($source)
 $destinationExtension = [System.IO.Path]::GetExtension($destination)
 
-Write-Host "Reading generation data for $($filename):`n---"
+Write-Output "Reading generation data for $($filename)..."
+Write-Verbose "`n---"
 
 # Use exiftool to get generation data based on the source image file type
 if ($sourceExtension -eq ".jpg" -or $sourceExtension -eq ".webp") {
@@ -42,8 +51,8 @@ elseif ($sourceExtension -eq ".png") {
     $info = exiftool -b -Parameters $source
 }
 
-Write-Host $($info -join "`r`n" | Out-String)
-Write-Host "---"
+Write-Verbose $($info -join "`r`n" | Out-String)
+Write-Verbose "---"
 
 # Write the obtained generation data to the target image file
 if ($destinationExtension -eq ".jpg" -or $destinationExtension -eq ".webp") {
@@ -53,4 +62,4 @@ elseif ($destinationExtension -eq ".png") {
     exiftool -all= "-PNG:Parameters=$($info -join "`r`n" | Out-String)" -overwrite_original $destination
 }
 
-Write-Host "Generation data written to $($destination)."
+Write-Output "Generation data written to $($destination)."
