@@ -42,6 +42,7 @@ if ($destinationExtension[0] -ne ".") {
 Get-ChildItem "./" -Filter $filter | 
 Foreach-Object {
     Write-Host "Converting $($_) to $destinationExtension format..."
+    $filename = $_.Name
     $info = ""
     $sourceExtension = [System.IO.Path]::GetExtension($_)
     $output = "$([System.IO.Path]::GetFileNameWithoutExtension($_))$destinationExtension"
@@ -49,25 +50,27 @@ Foreach-Object {
     # Use ImageMagick's magick command to convert the image to the target format
     magick "$($_.FullName)" $output
 
-    Write-Host "Conversion complete. $($_) has been converted to $output."
+    Write-Host "Conversion complete. $($filename) has been converted to $($output)."
 
+    Write-Host "Reading generation data for $($filename):`n---"
     # Use exiftool to get generation data based on the source image file type
     if ($sourceExtension -eq ".jpg" -or $sourceExtension -eq ".webp") {
-        $info = exiftool -s3 -UserComment $_
+        $info = exiftool -b -UserComment $_
     }
     elseif ($sourceExtension -eq ".png") {
-        $info = exiftool -s3 -Parameters $_
+        $info = exiftool -b -Parameters $_
     }
 
-    Write-Host "generation data for $($_): $info"
+    Write-Host $($info -join "`r`n" | Out-String)
+    Write-Host "---"
 
     # Write the obtained generation data to the target image file
     if ($destinationExtension -eq ".jpg" -or $destinationExtension -eq ".webp") {
-        exiftool -UserComment=$info -overwrite_original $output
+        exiftool -all= "-UserComment=$($info -join "`r`n" | Out-String)" -overwrite_original $output
     }
     elseif ($destinationExtension -eq ".png") {
-        exiftool -PNG:Parameters=$info -overwrite_original $output
+        exiftool -all= "-PNG:Parameters=$($info -join "`r`n" | Out-String)" -overwrite_original $output
     }
 
-    Write-Host "generation data has been copied to $output."
+    Write-Host "Generation data written to $($output)."
 }

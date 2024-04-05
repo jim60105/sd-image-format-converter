@@ -8,16 +8,20 @@ $destinationExtension = [System.IO.Path]::GetExtension($destination)
 
 # extract info from source file
 if ($sourceExtension -eq ".jpg" -or $sourceExtension -eq ".webp") {
-    $info = exiftool -s3 -UserComment $source
+    $info = exiftool -b -UserComment $source
 }
 elseif ($sourceExtension -eq ".png") {
-    $info = exiftool -s3 -Parameters $source
+    $info = exiftool -b -Parameters $source
 }
+
+exiftool -all= -overwrite_original $output
+
+Write-Host "Generation data for $($source): $info"
 
 # write info to destination file
 if ($destinationExtension -eq ".jpg" -or $destinationExtension -eq ".webp") {
-    exiftool -UserComment=$info -overwrite_original $destination
+    exiftool -all= "-UserComment=$($info -join "`r`n" | Out-String)" -overwrite_original $destination
 }
 elseif ($destinationExtension -eq ".png") {
-    exiftool -PNG:Parameters=$info -overwrite_original $destination
+    exiftool -all= "-PNG:Parameters=$($info -join "`r`n" | Out-String)" -overwrite_original $destination
 }
