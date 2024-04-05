@@ -28,6 +28,9 @@ The converted images are compatible with [AUTOMATIC1111/stable-diffusion-webui](
 > [!CAUTION]
 > Ensure that you have the necessary permissions to execute the script on your system. If you encounter any issues, please check this [Microsoft documentation](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies) first.
 
+> [!NOTE]
+> It is necessary to have both [`copy-info.ps1`](copy-info.ps1) and [`format-converter.ps1`](format-converter.ps1) placed in the same directory for `format-converter.ps1` to work.
+
 ## Usage
 
 ```powershell
