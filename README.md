@@ -1,5 +1,7 @@
 # Image Format Converter (for Stable Diffusion generation data)
 
+[![CodeFactor](https://www.codefactor.io/repository/github/jim60105/sd-image-format-converter/badge)](https://www.codefactor.io/repository/github/jim60105/sd-image-format-converter)
+
 This PowerShell script is designed to efficiently convert image files from one format to another, ensuring that the generation data for Stable Diffusion conventional usage is preserved. It serves as a convenient tool for users who require image format conversions while maintaining the integrity of Stable Diffusion generation data.
 
 The converted images are compatible with [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui) and [Civitai](https://civitai.com/).
