@@ -19,6 +19,9 @@ This command converts all .jpg files in the current directory to .png format, pr
 The script uses exiftool to extract generation data from the source images and ImageMagick's magick command to perform the conversion.
 This script is licensed under the GNU General Public License version 3 (GPLv3).
 For the full license text, see the LICENSE file in the root of this project.
+
+.LINK
+https://github.com/jim60105/sd-image-format-converter
 #>
 
 # Check if the -h parameter is passed or not exactly two arguments are passed
@@ -41,10 +44,8 @@ if ($destinationExtension[0] -ne ".") {
 
 Get-ChildItem "./" -Filter $filter | 
 Foreach-Object {
-    Write-Host "Converting $($_) to $destinationExtension format..."
+    Write-Host "Converting $($_) to $($destinationExtension) format..."
     $filename = $_.Name
-    $info = ""
-    $sourceExtension = [System.IO.Path]::GetExtension($_)
     $output = "$([System.IO.Path]::GetFileNameWithoutExtension($_))$destinationExtension"
 
     # Use ImageMagick's magick command to convert the image to the target format
@@ -52,25 +53,5 @@ Foreach-Object {
 
     Write-Host "Conversion complete. $($filename) has been converted to $($output)."
 
-    Write-Host "Reading generation data for $($filename):`n---"
-    # Use exiftool to get generation data based on the source image file type
-    if ($sourceExtension -eq ".jpg" -or $sourceExtension -eq ".webp") {
-        $info = exiftool -b -UserComment $_
-    }
-    elseif ($sourceExtension -eq ".png") {
-        $info = exiftool -b -Parameters $_
-    }
-
-    Write-Host $($info -join "`r`n" | Out-String)
-    Write-Host "---"
-
-    # Write the obtained generation data to the target image file
-    if ($destinationExtension -eq ".jpg" -or $destinationExtension -eq ".webp") {
-        exiftool -all= "-UserComment=$($info -join "`r`n" | Out-String)" -overwrite_original $output
-    }
-    elseif ($destinationExtension -eq ".png") {
-        exiftool -all= "-PNG:Parameters=$($info -join "`r`n" | Out-String)" -overwrite_original $output
-    }
-
-    Write-Host "Generation data written to $($output)."
+    .\copy-info.ps1 $_ $output
 }
