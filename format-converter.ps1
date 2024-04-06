@@ -41,6 +41,9 @@ if ($destinationExtension[0] -ne ".") {
     $destinationExtension = ".$destinationExtension"
 }
 
+# Get where the script is located
+$scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Definition
+
 Get-ChildItem "./" -Filter $filter | 
 Foreach-Object {
     Write-Output "Converting $($_) to $($destinationExtension) format..."
@@ -52,5 +55,5 @@ Foreach-Object {
 
     Write-Output "Conversion complete. $($filename) has been converted to $($output)."
 
-    .\copy-info.ps1 $_ $output
+    & "$scriptPath\copy-info.ps1" $_ $output
 }
