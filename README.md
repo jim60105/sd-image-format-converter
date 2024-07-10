@@ -15,6 +15,11 @@ The converted images are compatible with [AUTOMATIC1111/stable-diffusion-webui](
 - Supports various image formats including jpg, png, webp, and avif.
 - Ensures the preservation of generation data throughout the entire conversion process.
 
+> [!NOTE]
+> Why avif😉  
+> ![2024-07-11-044623](https://github.com/jim60105/sd-image-format-converter/assets/16995691/ffaeac03-af05-4063-b94d-d9b756611da3)  
+> Avif is supported by [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui/pull/15582).
+
 ## Prerequisites
 
 - PowerShell 7.
