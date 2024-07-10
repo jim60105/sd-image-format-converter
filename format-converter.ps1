@@ -29,6 +29,7 @@ if ($args.Count -ne 2 -or $args -contains "-h") {
     Write-Output "Usage: format-converter.ps1 <Filter> <TargetImageFileType>"
     Write-Output "Example: format-converter.ps1 *.jpg .png"
     Write-Output "This will convert all .jpg files in the current directory to .png format, preserving Stable Diffusion generation data."
+    Write-Output "Current supported file types: .jpg, .webp, .png, .avif"
     exit
 }
 
@@ -51,7 +52,17 @@ Foreach-Object {
     $output = "$([System.IO.Path]::GetFileNameWithoutExtension($_))$destinationExtension"
 
     # Use ImageMagick's magick command to convert the image to the target format
-    magick "$($_.FullName)" $output
+    switch ($destinationExtension) {
+        ".avif" {
+            magick -quality 80 -define "heic:speed=2" "$filename" "$output"
+        }
+        ".webp" {
+            magick -quality 100 -define webp:lossless=true "$filename" "$output"
+        }
+        default { 
+            magick "$filename" "$output"
+        }
+    }
 
     Write-Output "Conversion complete. $($filename) has been converted to $($output)."
 

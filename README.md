@@ -11,8 +11,8 @@ The converted images are compatible with [AUTOMATIC1111/stable-diffusion-webui](
 
 ## Features
 
-- Converts image files from one format to another (e.g., JPG to PNG).
-- Supports various image formats including JPG, PNG, and WEBP.
+- Converts image files from one format to another (e.g., jpg to png).
+- Supports various image formats including jpg, png, webp, and avif.
 - Ensures the preservation of generation data throughout the entire conversion process.
 
 ## Prerequisites

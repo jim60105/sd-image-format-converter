@@ -28,6 +28,7 @@ if ($args.Count -ne 2 -or $args -contains "-h") {
     Write-Output "Usage: copy-info.ps1 <SOURCE> <DESTINATION>"
     Write-Output "Example: copy-info.ps1 source.webp target.png"
     Write-Output "This will copy Stable Diffusion generation data from a source image file to a target image file."
+    Write-Output "Current supported file types: .jpg, .webp, .png, .avif"
     exit
 }
 
@@ -44,22 +45,22 @@ Write-Output "Reading generation data for $($filename)..."
 Write-Verbose "`n---"
 
 # Use exiftool to get generation data based on the source image file type
-if ($sourceExtension -eq ".jpg" -or $sourceExtension -eq ".webp") {
-    $info = exiftool -b -UserComment $source
-}
-elseif ($sourceExtension -eq ".png") {
+if ($sourceExtension -eq ".png") {
     $info = exiftool -b -Parameters $source
+}
+else {
+    $info = exiftool -b -UserComment $source
 }
 
 Write-Verbose $($info -join "`r`n" | Out-String)
 Write-Verbose "---"
 
 # Write the obtained generation data to the target image file
-if ($destinationExtension -eq ".jpg" -or $destinationExtension -eq ".webp") {
-    exiftool -all= "-UserComment=$($info -join "`r`n" | Out-String)" -overwrite_original $destination
-}
-elseif ($destinationExtension -eq ".png") {
+if ($destinationExtension -eq ".png") {
     exiftool -all= "-PNG:Parameters=$($info -join "`r`n" | Out-String)" -overwrite_original $destination
+}
+else {
+    exiftool -all= "-UserComment=$($info -join "`r`n" | Out-String)" -overwrite_original $destination
 }
 
 Write-Output "Generation data written to $($destination)."
