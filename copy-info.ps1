@@ -35,32 +35,19 @@ if ($args.Count -ne 2 -or $args -contains "-h") {
 # Get two file path from command line argument
 $source = $args[0]
 $destination = $args[1]
-$filename = $source.Name
 
 # Get the source and destination file extension
 $sourceExtension = [System.IO.Path]::GetExtension($source)
 $destinationExtension = [System.IO.Path]::GetExtension($destination)
 
-Write-Output "Reading generation data for $($filename)..."
-Write-Verbose "`n---"
+if ($sourceExtension -ne ".png" -and $destinationExtension -ne ".png") {
+    exiftool -b -tagsFromFile $source "-UserComment>UserComment" -overwrite_original $destination
+    exit 0
+}
 
-# Use exiftool to get generation data based on the source image file type
 if ($sourceExtension -eq ".png") {
-    $info = exiftool -b -Parameters $source
+    exiftool -b -tagsFromFile $source "-PNG:Parameters>UserComment" -overwrite_original $destination
 }
 else {
-    $info = exiftool -b -UserComment $source
+    exiftool -b -tagsFromFile $source "-UserComment>PNG:Parameters" -overwrite_original $destination
 }
-
-Write-Verbose $($info -join "`r`n" | Out-String)
-Write-Verbose "---"
-
-# Write the obtained generation data to the target image file
-if ($destinationExtension -eq ".png") {
-    exiftool -all= "-PNG:Parameters=$($info -join "`r`n" | Out-String)" -overwrite_original $destination
-}
-else {
-    exiftool -all= "-UserComment=$($info -join "`r`n" | Out-String)" -overwrite_original $destination
-}
-
-Write-Output "Generation data written to $($destination)."
