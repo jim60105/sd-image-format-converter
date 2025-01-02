@@ -5,7 +5,7 @@
 
 [![CodeFactor](https://www.codefactor.io/repository/github/jim60105/sd-image-format-converter/badge)](https://www.codefactor.io/repository/github/jim60105/sd-image-format-converter)
 
-This PowerShell script is designed to efficiently convert image files from one format to another, ensuring that the generation data for Stable Diffusion conventional usage is preserved. It serves as a convenient tool for users who require image format conversions while maintaining the integrity of Stable Diffusion generation data.
+This PowerShell script / Bash script is designed to efficiently convert image files from one format to another, ensuring that the generation data for Stable Diffusion conventional usage is preserved. It serves as a convenient tool for users who require image format conversions while maintaining the integrity of Stable Diffusion generation data.
 
 The converted images are compatible with [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui) and [Civitai](https://civitai.com/).
 
@@ -39,9 +39,18 @@ The converted images are compatible with [AUTOMATIC1111/stable-diffusion-webui](
 > Ensure that you have the necessary permissions to execute the script on your system. If you encounter any issues, please check this [Microsoft documentation](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies) first.
 
 > [!NOTE]
-> It is necessary to have both [`copy-info.ps1`](copy-info.ps1) and [`format-converter.ps1`](format-converter.ps1) placed in the same directory for `format-converter.ps1` to work.
+> It is necessary to have both [`copy-info.ps1`](copy-info.ps1) and [`format-converter.ps1`](format-converter.ps1) placed in the same directory for `format-converter.ps1` to work.  
+> Similarly, for the bash script, ensure [`copy-info.sh`](copy-info.sh) and [`format-converter.sh`](format-converter.sh) are in the same directory.
 
 ## Usage
+
+### Bash
+
+```bash
+./format-converter.sh <Filter> <TargetImageFileType>
+```
+
+### PowerShell
 
 ```powershell
 .\format-converter.ps1 <Filter> <TargetImageFileType>
