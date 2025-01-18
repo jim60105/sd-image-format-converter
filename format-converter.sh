@@ -32,7 +32,7 @@ find . -name "$filter" | while read -r file; do
     filename=$(basename "$file")
     output="${filename%.*}$destinationExtension"
 
-    # Use ImageMagick's magick command to convert the image to the target format
+    # Use magick command from ImageMagick to convert the image to the target format
     case $destinationExtension in
         .avif)
             magick -quality 80 -define "heic:speed=2" "$file" "$output"

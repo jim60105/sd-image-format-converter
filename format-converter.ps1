@@ -51,7 +51,7 @@ Foreach-Object {
     $filename = $_.Name
     $output = "$([System.IO.Path]::GetFileNameWithoutExtension($_))$destinationExtension"
 
-    # Use ImageMagick's magick command to convert the image to the target format
+    # Use magick command from ImageMagick to convert the image to the target format
     switch ($destinationExtension) {
         ".avif" {
             magick -quality 80 -define "heic:speed=2" "$filename" "$output"

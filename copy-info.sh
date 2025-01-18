@@ -22,6 +22,8 @@ destination=$2
 sourceExtension="${source##*.}"
 destinationExtension="${destination##*.}"
 
+echo "Copying Stable Diffusion generation data from $source to $destination..."
+
 if [[ "$sourceExtension" != "png" && "$destinationExtension" != "png" ]]; then
     exiftool -b -tagsFromFile "$source" "-UserComment>UserComment" -overwrite_original "$destination"
     exit 0
@@ -29,6 +31,7 @@ fi
 
 if [[ "$sourceExtension" == "png" ]]; then
     exiftool -b -tagsFromFile "$source" "-PNG:Parameters>UserComment" -overwrite_original "$destination"
-else
-    exiftool -b -tagsFromFile "$source" "-UserComment>PNG:Parameters" -overwrite_original "$destination"
+    exit 0
 fi
+
+exiftool -b -tagsFromFile "$source" "-UserComment>PNG:Parameters" -overwrite_original "$destination"

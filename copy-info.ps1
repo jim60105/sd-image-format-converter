@@ -37,17 +37,19 @@ $source = $args[0]
 $destination = $args[1]
 
 # Get the source and destination file extension
-$sourceExtension = [System.IO.Path]::GetExtension($source)
-$destinationExtension = [System.IO.Path]::GetExtension($destination)
+$sourceExtension = [System.IO.Path]::GetExtension($source).TrimStart('.')
+$destinationExtension = [System.IO.Path]::GetExtension($destination).TrimStart('.')
 
-if ($sourceExtension -ne ".png" -and $destinationExtension -ne ".png") {
+Write-Output "Copying Stable Diffusion generation data from $source to $destination..."
+
+if ($sourceExtension -ne "png" -and $destinationExtension -ne "png") {
     exiftool -b -tagsFromFile $source "-UserComment>UserComment" -overwrite_original $destination
     exit 0
 }
 
-if ($sourceExtension -eq ".png") {
+if ($sourceExtension -eq "png") {
     exiftool -b -tagsFromFile $source "-PNG:Parameters>UserComment" -overwrite_original $destination
+    exit 0
 }
-else {
-    exiftool -b -tagsFromFile $source "-UserComment>PNG:Parameters" -overwrite_original $destination
-}
+
+exiftool -b -tagsFromFile $source "-UserComment>PNG:Parameters" -overwrite_original $destination
