@@ -26,8 +26,8 @@ fi
 # Get where the script is located
 scriptPath=$(dirname "$(realpath "$0")")
 
-# Find and convert files
-find . -name "$filter" | while read -r file; do
+files=$(find . -type f -name "$filter")
+for file in $files; do
     echo "Converting $file to $destinationExtension format..."
     filename=$(basename "$file")
     output="${filename%.*}$destinationExtension"
@@ -47,5 +47,6 @@ find . -name "$filter" | while read -r file; do
 
     echo "Conversion complete. $filename has been converted to $output."
 
-    "$scriptPath/copy-info.sh" "$file" "$output"
+    # Call the copy-info script
+    ("$scriptPath"/copy-info.sh "$file" "$output")
 done
